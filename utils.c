@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:53:40 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/18 18:55:19 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:56:47 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+static int	skip_sign(char *nb, int *i, int *sign)
+{
+	int	j;
+
+	j = 0;
+	*sign = 1;
+	while (nb[*i] == '-' || nb[*i] == '+')
+	{
+		if (nb[*i] == '-')
+			*sign = -1;
+		j++;
+		++*i;
+	}
+	if (j > 1)
+		return (0);
+	return (1);
 }
 
 long long	ft_atoi(char *nb)
