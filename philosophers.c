@@ -6,36 +6,29 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:49:39 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/18 16:49:04 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:11:56 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void *my_turn()
+void init_philo_struct(char **av, t_philo utils)
 {
-	while (1)
-	{
-		sleep(1);
-		printf("NOK NOK\n");
-	}
-	return (0);
-}
+	int i;
 
-void ur_turn()
-{
-	while (1)
+	i = 0;
+	utils.size = ft_atoi(av[0]);
+	while (i < utils.size)
 	{
-		sleep(3);
-		printf("who is there\n");
+		utils.philos[i] = (pthread_t)malloc(sizeof(pthread_t));
+		i++
 	}
 }
 
-int main ()
+int main (int ac, char **av)
 {
-	pthread_t thread;
-	pthread_create(&thread, NULL, my_turn, NULL);
+	t_philo utils;
 
-	ur_turn();
+	
 	return  (0);
 }
