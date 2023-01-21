@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:50:00 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/20 19:59:22 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/21 21:35:58 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,21 @@ typedef struct s_philo_utils
 
 typedef struct s_philo
 {
+	t_philo_utils	*utils;
+	pthread_t		philo_thread;
 	int				philo_id;
 	int				last_eat;
-	pthread_mutex_t	*forks;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	int				eat_counter;
+	int				finished;
+	// pthread_mutex_t	*forks;
 }	t_philo;
 
 size_t	ft_strlen(const char *s);
 long long	ft_atoi(char *nb);
 void	ft_error(char *msg);
-void	ft_sleep(int time);
-int get_current_time(t_philo utils);
+void	ft_sleep(int time, t_philo_utils *utils);
+int get_current_time(t_philo_utils *utils);
 
 #endif
