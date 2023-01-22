@@ -3438,6 +3438,28 @@
               "font": "script",
               "textAlign": "middle"
             }
+          },
+          "2a3428c3-ad00-42e4-3a8c-e8a69ad88b05": {
+            "id": "2a3428c3-ad00-42e4-3a8c-e8a69ad88b05",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 37,
+            "point": [
+              180.85313531991355,
+              279.8460246934427
+            ],
+            "rotation": 0,
+            "text": "15000",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
           }
         },
         "bindings": {

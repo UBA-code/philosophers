@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:53:40 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/21 22:46:30 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/22 20:12:54 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,27 @@ void	ft_error(char *msg)
 	}
 }
 
-int get_current_time(t_philo_utils *utils)
+int current_programe_time(t_philo_utils *utils)
 {
-	gettimeofday(&(utils->current_time), 0);
-	return ((utils->current_time.tv_sec - utils->start_time.tv_sec) * 1000 + (utils->current_time.tv_usec - utils->start_time.tv_usec) / 1000);
+	size_t time;
+
+	time = ft_time_now();
+	return (time - utils->start_time);
+}
+
+size_t	ft_time_now(void)
+{
+	struct timeval time;
+
+	gettimeofday(&time, 0);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 void	ft_sleep(int time, t_philo_utils *utils)
 {
-	struct timeval start;
-	struct timeval stop;
+	size_t start;
 
-	gettimeofday(&start, 0);
-	gettimeofday(&stop, 0);
-	while (stop.tv_sec * 1000 + stop.tv_usec / 1000 < (start.tv_sec * 1000 + start.tv_usec / 1000) + time)
-	{
-		gettimeofday(&stop, 0);
+	start = ft_time_now();
+	while (ft_time_now() < start + time)
 		usleep(10);
-	}
 }
