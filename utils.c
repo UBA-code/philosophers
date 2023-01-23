@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:53:40 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/22 20:12:54 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/23 23:22:44 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,24 @@ void	ft_sleep(int time, t_philo_utils *utils)
 	start = ft_time_now();
 	while (ft_time_now() < start + time)
 		usleep(10);
+}
+
+void	death_check(t_philo_utils utils, t_philo *philo)
+{
+	int		i;
+	size_t	time;
+
+	while (1)
+	{
+		time = ft_time_now();
+		i = -1;
+		while (++i < utils.size)
+		{
+			if (time > (philo[i].last_eat + ft_atoi(utils.av[1])))
+			{
+				printf("%dms %d died\n", current_programe_time(&utils), i + 1);
+				return ;
+			}
+		}
+	}
 }

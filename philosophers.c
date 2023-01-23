@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:49:39 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/23 12:09:00 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/23 23:39:30 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@ void init_philo_struct(char **av, t_philo_utils *utils, t_philo *philo)
 	int right_fork;
 
 	utils->size = ft_atoi(av[0]);
-	utils->philos = malloc(sizeof(pthread_t) * utils->size);
 	utils->forks = malloc(sizeof(pthread_mutex_t) * utils->size);
 	i = -1;
-	utils->eating_times = malloc(sizeof(int) * utils->size);
-	while (++i < utils->size)
-		utils->eating_times[i] = 0;
 	utils->philo_num = 0;
 	utils->av = av;
 	utils->start_time = ft_time_now();
@@ -62,9 +58,9 @@ void *routine(void *philo_pointer)
 	while (1)
 	{
 		printf("%dms %d is thinking\n", current_programe_time(philo->utils), philo->philo_id + 1);
-		pthread_mutex_lock(&(philo->utils->forks[right_fork]));      //lock right fork
+		pthread_mutex_lock(&(philo->utils->forks[right_fork]));
 		printf("%dms %d has taken a fork\n", current_programe_time(philo->utils), philo->philo_id + 1);
-		pthread_mutex_lock(&(philo->utils->forks[philo->philo_id])); //lock left fork
+		pthread_mutex_lock(&(philo->utils->forks[philo->philo_id]));
 		printf("%dms %d has taken a fork\n", current_programe_time(philo->utils), philo->philo_id + 1);
 		philo->last_eat = ft_time_now();
 		printf("%dms %d is eating\n", current_programe_time(philo->utils), philo->philo_id + 1);
@@ -89,15 +85,10 @@ void philos_check(t_philo_utils *utils, t_philo *philo)
 	int i;
 
 	i = 0;
-	// philo = malloc(sizeof(t_philo) * utils->size);
-	// (*(philo))->utils = utils;
 	while (i < utils->size)
 	{
-		// philo[i]->philo_thread = malloc(sizeof(pthread_t));
-		// philo[i]->philo_id = i;
-		// philo[i]->last_eat = 0;
-		// philo[i]->forks = utils->forks;
 		pthread_create(&(philo[i].philo_thread), 0, routine, &(philo[i]));
+		pthread_detach(philo[i].philo_thread);
 		usleep(50);
 		i++;
 	}
@@ -113,30 +104,24 @@ int main(int ac, char **av)
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
 	init_philo_struct(av + 1, &utils, philo);
 	philos_check(&utils, philo);
+	death_check(utils, philo);
+	i = 0;
+	// while (++i < utils.size)
+	// 	free(&philo);
+	// check death
 	// while (1)
 	// {
-	// 	printf("--------  %d -------\n", philo[0].last_eat);
-	// 	ft_sleep(2000, &utils);
+	// 	time = ft_time_now();
+	// 	i = -1;
+	// 	while (++i < utils.size)
+	// 	{
+	// 		if (time > (philo[i].last_eat + ft_atoi(utils.av[1])))
+	// 		{
+	// 			printf("%dms %d died\n", current_programe_time(&utils), i + 1);
+	// 			return (0);
+	// 		}
+	// 	}
 	// }
-	// check death
-	while (1)
-	{
-		time = ft_time_now();
-		i = 0;
-		while (i < utils.size)
-		{
-			if (time > (philo[i].last_eat + ft_atoi(utils.av[1])))
-			{
-				printf("%dms %d died\n", current_programe_time(&utils), i + 1);
-				printf("last eat = %zu\n", philo[i].last_eat);
-				printf("death time = %lld\n", philo[i].last_eat + ft_atoi(utils.av[1]));
-				printf("time now is = %zu\n", time);
-				return (0);
-			}
-			i++;
-			// printf("%llu\n", (philo[i].last_eat - utils.start_time) + ft_atoi(utils.av[1]));
-		}
-	}
 	// system("leaks philosophers");
 	return (0);
 }
