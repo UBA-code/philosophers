@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:49:39 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/22 23:41:07 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:09:00 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void *routine(void *philo_pointer)
 		printf("%dms %d has taken a fork\n", current_programe_time(philo->utils), philo->philo_id + 1);
 		pthread_mutex_lock(&(philo->utils->forks[philo->philo_id])); //lock left fork
 		printf("%dms %d has taken a fork\n", current_programe_time(philo->utils), philo->philo_id + 1);
+		philo->last_eat = ft_time_now();
 		printf("%dms %d is eating\n", current_programe_time(philo->utils), philo->philo_id + 1);
 		ft_sleep(ft_atoi(philo->utils->av[2]), philo->utils);
-		philo->last_eat = ft_time_now();
 		pthread_mutex_unlock(&(philo->utils->forks[philo->philo_id]));
 		pthread_mutex_unlock(&(philo->utils->forks[right_fork]));
 		printf("%dms %d is sleeping\n", current_programe_time(philo->utils), philo->philo_id + 1);
