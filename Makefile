@@ -7,7 +7,7 @@ SRCS = philosophers.c utils.c
 OBG = $(SRCS:.c=.o)
 # BONUS_OBG = $(BONUS_SRCS:.c=.o)
 # CFLAGS = -Wall -Werror -Wextra
-NAME = philosophers
+NAME = philo
 # BONUS = checker
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:53:40 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/23 23:22:44 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:41:07 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	ft_sleep(int time, t_philo_utils *utils)
 		usleep(10);
 }
 
-void	death_check(t_philo_utils utils, t_philo *philo)
+
+void	death_check(t_philo_utils *utils, t_philo *philo)
 {
 	int		i;
 	size_t	time;
@@ -107,13 +108,32 @@ void	death_check(t_philo_utils utils, t_philo *philo)
 	{
 		time = ft_time_now();
 		i = -1;
-		while (++i < utils.size)
+		while (++i < utils->size)
 		{
-			if (time > (philo[i].last_eat + ft_atoi(utils.av[1])))
+			if (check_eat_done(philo, *utils))
 			{
-				printf("%dms %d died\n", current_programe_time(&utils), i + 1);
+				utils->finished = 1;
+				return ;
+			}
+			if (time > (philo[i].last_eat + ft_atoi(utils->av[1])))
+			{
+				printf("%dms %d died\n", current_programe_time(utils), i + 1);
 				return ;
 			}
 		}
 	}
+}
+
+int	check_eat_done(t_philo *philo, t_philo_utils utils)
+{
+	int	i;
+
+	i = 0;
+	while (i < utils.size)
+	{
+		if (!philo[i].finished)
+			return (0);
+		i++;
+	}
+	return (1);
 }
