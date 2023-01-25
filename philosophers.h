@@ -6,22 +6,22 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:50:00 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/24 22:34:20 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:34:51 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
-#define PHILOSOPHERS_H
+# define PHILOSOPHERS_H
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "unistd.h"
-#include "pthread.h"
-#include "sys/time.h"
+# include "stdio.h"
+# include "stdlib.h"
+# include "unistd.h"
+# include "pthread.h"
+# include "sys/time.h"
 
 typedef struct s_philo_utils
 {
-	pthread_mutex_t *forks;
+	pthread_mutex_t	*forks;
 	int				size;
 	int				philo_num;
 	char			**av;
@@ -39,7 +39,7 @@ typedef struct s_philo
 	size_t			last_eat;
 	int				eat_counter;
 	int				finished;
-	// pthread_mutex_t	*forks;
+	int				right_fork;
 }	t_philo;
 
 size_t		ft_strlen(const char *s);

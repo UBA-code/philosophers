@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:53:40 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 13:24:35 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:34:18 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_error(char *msg)
 void	ft_print(t_philo *philo, char *msg)
 {
 	pthread_mutex_lock(&(philo->utils->print));
-	printf("%dms %d %s", current_programe_time(philo->utils), philo->philo_id + 1, msg);
+	printf("%dms %d %s",
+		current_programe_time(philo->utils), philo->philo_id + 1, msg);
 	pthread_mutex_unlock(&(philo->utils->print));
 }

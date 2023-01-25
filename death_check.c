@@ -6,13 +6,13 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 22:05:32 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 15:54:40 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:36:42 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int current_programe_time(t_philo_utils *utils)
+int	current_programe_time(t_philo_utils *utils)
 {
 	size_t	time;
 
@@ -37,7 +37,6 @@ void	ft_sleep(int time, t_philo_utils *utils)
 		usleep(10);
 }
 
-
 void	death_check(t_philo_utils *utils, t_philo *philo)
 {
 	int		i;
@@ -50,11 +49,13 @@ void	death_check(t_philo_utils *utils, t_philo *philo)
 			utils->finished = 1;
 			return ;
 		}
-		if (current_programe_time(utils) > (philo[i].last_eat + ft_atoi(utils->av[1]))
+		if (current_programe_time(utils)
+			> (philo[i].last_eat + ft_atoi(utils->av[1]))
 			&& !(philo[i].finished))
 		{
 			pthread_mutex_lock(&(philo[i].utils->print));
-			printf("%dms %d died\n", current_programe_time(utils), philo[i].philo_id + 1);
+			printf("%dms %d died\n",
+				current_programe_time(utils), philo[i].philo_id + 1);
 			return ;
 			pthread_mutex_unlock(&(philo[i].utils->print));
 		}
