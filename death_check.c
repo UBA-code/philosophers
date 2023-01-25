@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 22:05:32 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 14:02:49 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/25 15:49:55 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,27 @@ void	ft_sleep(int time, t_philo_utils *utils)
 void	death_check(t_philo_utils *utils, t_philo *philo)
 {
 	int		i;
-	size_t	time;
 
+	i = 0;
 	while (1)
 	{
-		// time = ft_time_now();
-		time = current_programe_time(utils);
-		i = -1;
 		if (check_eat_done(philo, *utils))
 		{
 			utils->finished = 1;
 			return ;
 		}
-		while (++i < utils->size)
+		pthread_mutex_lock(&(philo[i].utils->print));
+		if (current_programe_time(utils) > (philo[i].last_eat + ft_atoi(utils->av[1]))
+			&& !(philo[i].finished))
 		{
-			pthread_mutex_lock(&(philo[i].utils->print));
-			if (time > (philo[i].last_eat + ft_atoi(utils->av[1]))
-				&& !(philo[i].finished))
-			{
-				// utils->stop = 1;
-				printf("%dms %d died\n", current_programe_time(utils), philo[i].philo_id + 1);
-				return ;
-			}
-			pthread_mutex_unlock(&(philo[i].utils->print));
+			// utils->stop = 1;
+			printf("%dms %d died\n", current_programe_time(utils), philo[i].philo_id + 1);
+			return ;
 		}
+		pthread_mutex_unlock(&(philo[i].utils->print));
+		i++;
+		if (i == utils->size)
+			i = 0;
 	}
 }
 
