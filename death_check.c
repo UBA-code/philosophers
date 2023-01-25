@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 22:05:32 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 15:49:55 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/25 15:54:40 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,14 @@ void	death_check(t_philo_utils *utils, t_philo *philo)
 			utils->finished = 1;
 			return ;
 		}
-		pthread_mutex_lock(&(philo[i].utils->print));
 		if (current_programe_time(utils) > (philo[i].last_eat + ft_atoi(utils->av[1]))
 			&& !(philo[i].finished))
 		{
-			// utils->stop = 1;
+			pthread_mutex_lock(&(philo[i].utils->print));
 			printf("%dms %d died\n", current_programe_time(utils), philo[i].philo_id + 1);
 			return ;
+			pthread_mutex_unlock(&(philo[i].utils->print));
 		}
-		pthread_mutex_unlock(&(philo[i].utils->print));
 		i++;
 		if (i == utils->size)
 			i = 0;
