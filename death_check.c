@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 22:05:32 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 13:57:54 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/25 14:02:49 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	death_check(t_philo_utils *utils, t_philo *philo)
 
 	while (1)
 	{
-		time = ft_time_now();
+		// time = ft_time_now();
+		time = current_programe_time(utils);
 		i = -1;
 		if (check_eat_done(philo, *utils))
 		{
