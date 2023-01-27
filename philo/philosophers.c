@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:49:39 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 17:32:49 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:02:55 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,63 @@ void	*routine(void *philo_pointer)
 		ft_print(philo, "has taken a fork\n");
 		philo->last_eat = current_programe_time(philo->utils);
 		ft_print(philo, "is eating\n");
-		ft_sleep(ft_atoi(philo->utils->av[2]), philo->utils);
-		philo->eat_counter++;
+		ft_sleep(ft_atoi(philo->utils->av[2]));
 		pthread_mutex_unlock(&(philo->utils->forks[philo->philo_id]));
 		pthread_mutex_unlock(&(philo->utils->forks[philo->right_fork]));
 		ft_print(philo, "is sleeping\n");
-		ft_sleep(ft_atoi(philo->utils->av[3]), philo->utils);
-		if (philo->utils->av[4]
-			&& philo->eat_counter == ft_atoi(philo->utils->av[4]))
-			philo->finished = 1;
+		ft_sleep(ft_atoi(philo->utils->av[3]));
+		if (philo->utils->av[4])
+		{
+			philo->eat_counter++;
+			if (philo->eat_counter == ft_atoi(philo->utils->av[4]))
+				philo->finished = 1;
+		}
 	}
 	return (0);
 }
 
-void	philos_check(t_philo_utils *utils, t_philo *philo)
+int	philos_check(t_philo_utils *utils, t_philo *philo)
 {
 	int	i;
 
 	i = 0;
 	while (i < utils->size)
 	{
-		pthread_create(&(philo[i].philo_thread), 0, routine, &(philo[i]));
-		pthread_detach(philo[i].philo_thread);
-		usleep(50);
+		if (pthread_create(&(philo[i].philo_thread), 0, routine, &(philo[i])))
+			return (ft_error("Failed To create Thread\n"));
+		usleep(100);
+		if (pthread_detach(philo[i].philo_thread))
+			return (ft_error("Failed To detach Thread\n"));
 		i++;
 	}
+	return (0);
+}
+
+int	args_check(int ac, char **av)
+{
+	int	i;
+	int	x;
+
+	if (ac == 5 || ac == 6)
+	{
+		i = 0;
+		while (av[i])
+		{
+			x = 0;
+			while (av[i][x])
+			{
+				if (!((av[i][x] >= '0' && av[i][x] <= '9') || av[i][x] == '+'))
+					return (0);
+				x++;
+			}
+			if (av[i][x - 1] == '+')
+				return (0);
+			i++;
+		}
+		return (1);
+	}
+	else
+		return (0);
 }
 
 int	main(int ac, char **av)
@@ -86,16 +118,16 @@ int	main(int ac, char **av)
 	t_philo			*philo;
 	int				i;
 
+	if (!args_check(ac, av + 1))
+		return (ft_error("check arguments please!\n"));
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
 	init_philo_struct(av + 1, &utils, philo);
-	philos_check(&utils, philo);
+	if (philos_check(&utils, philo))
+		return (EXIT_FAILURE);
 	death_check(&utils, philo);
-	i = ac * 0;
-	// while (i < utils.size)
-	// {
-	// 	pthread_mutex_destroy(&(utils.forks[i]));
-	// 	i++;
-	// }
-	// system("leaks philo");
+	i = (ac * 0) - 1;
+	pthread_mutex_destroy(&(utils.print));
+	while (++i < utils.size)
+		pthread_mutex_destroy(&(utils.forks[i]));
 	return (0);
 }

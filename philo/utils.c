@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:53:40 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 17:34:18 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:01:48 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,18 @@ long long	ft_atoi(char *nb)
 	return (n * sign);
 }
 
-void	ft_error(char *msg)
+int	ft_error(char *msg)
 {
 	int	i;
 
 	i = 0;
+	write(2, "\033[0;31m", 7);
 	while (msg[i])
 	{
 		write(2, &msg[i], 1);
 		i++;
 	}
+	return (EXIT_FAILURE);
 }
 
 void	ft_print(t_philo *philo, char *msg)

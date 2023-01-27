@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:50:00 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/25 17:34:51 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:02:59 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ typedef struct s_philo
 
 size_t		ft_strlen(const char *s);
 long long	ft_atoi(char *nb);
-void		ft_error(char *msg);
+int			ft_error(char *msg);
 size_t		ft_time_now(void);
-void		ft_sleep(int time, t_philo_utils *utils);
+void		ft_sleep(int time);
 int			current_programe_time(t_philo_utils *utils);
 void		death_check(t_philo_utils *utils, t_philo *philo);
 int			check_eat_done(t_philo *philo, t_philo_utils utils);
 void		ft_print(t_philo *philo, char *msg);
+void		stop_threads(t_philo_utils *utils, t_philo *philo);
 
 #endif
