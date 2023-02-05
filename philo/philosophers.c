@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:49:39 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/02/05 14:00:58 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/02/05 17:41:22 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_philo_struct(char **av, t_philo_utils *utils, t_philo *philo)
 		philo[i].finished = 0;
 		philo[i].right_fork = philo[i].philo_id - 1;
 		if (philo[i].right_fork < 0)
-			philo[i].right_fork = philo[i].utils->size - 1;
+			philo[i].right_fork = utils->size - 1;
 	}
 }
 
@@ -45,7 +45,7 @@ void	*routine(void *philo_pointer)
 	t_philo	*philo;
 
 	philo = philo_pointer;
-	while (!philo->utils->stop && !philo->finished)
+	while (!philo->finished)
 	{
 		ft_print(philo, "is thinking\n");
 		pthread_mutex_lock(&(philo->utils->forks[philo->right_fork]));
@@ -54,6 +54,9 @@ void	*routine(void *philo_pointer)
 		ft_print(philo, "has taken a fork\n");
 		pthread_mutex_lock(&(philo->eat_mutex));
 		philo->last_eat = current_programe_time(philo->utils);
+		if (philo->utils->av[4] && ++(philo->eat_counter))
+			if (philo->eat_counter == ft_atoi(philo->utils->av[4]))
+				philo->finished = 1;
 		pthread_mutex_unlock(&(philo->eat_mutex));
 		ft_print(philo, "is eating\n");
 		ft_sleep(ft_atoi(philo->utils->av[2]));
@@ -61,9 +64,6 @@ void	*routine(void *philo_pointer)
 		pthread_mutex_unlock(&(philo->utils->forks[philo->philo_id]));
 		ft_print(philo, "is sleeping\n");
 		ft_sleep(ft_atoi(philo->utils->av[3]));
-		if (philo->utils->av[4] && ++(philo->eat_counter))
-			if (philo->eat_counter == ft_atoi(philo->utils->av[4]))
-				philo->finished = 1;
 	}
 	return (0);
 }
@@ -77,7 +77,7 @@ int	philos_check(t_philo_utils *utils, t_philo *philo)
 	{
 		if (pthread_create(&(philo[i].philo_thread), 0, routine, &(philo[i])))
 			return (ft_error("Failed To create Thread\n"));
-		usleep(100);
+		usleep(50);
 		if (pthread_detach(philo[i].philo_thread))
 			return (ft_error("Failed To detach Thread\n"));
 		i++;

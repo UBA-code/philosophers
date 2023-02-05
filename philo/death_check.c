@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 22:05:32 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/02/05 14:06:20 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/02/05 17:18:51 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,16 @@ int	death_check(t_philo_utils *utils, t_philo *philo)
 {
 	int				i;
 	long long		last;
+	int				finished;
 
 	i = 0;
+	finished = 0;
 	while (i < utils->size)
 	{
-		// if (check_eat_done(philo, *utils))
-		// {
-			// utils->stop = 1;
-			// return (0);
-		// }
 		pthread_mutex_lock(&(philo[i].eat_mutex));
 		last = (long long)(philo[i].last_eat) + ft_atoi(utils->av[1]);
+		if (philo[i].finished)
+			finished++;
 		pthread_mutex_unlock(&(philo[i].eat_mutex));
 		if (current_programe_time(utils) > last && !(philo[i].finished))
 		{
@@ -62,6 +61,8 @@ int	death_check(t_philo_utils *utils, t_philo *philo)
 		}
 		i++;
 	}
+	if (finished >= utils->size)
+		return (0);
 	return (1);
 }
 
