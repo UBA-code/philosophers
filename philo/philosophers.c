@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:49:39 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/27 16:07:24 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:00:58 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_philo_struct(char **av, t_philo_utils *utils, t_philo *philo)
 	while (++i < utils->size)
 	{
 		pthread_mutex_init(&(utils->forks[i]), 0);
+		pthread_mutex_init(&(philo[i].eat_mutex), 0);
 		philo[i].utils = utils;
 		philo[i].philo_id = i;
 		philo[i].last_eat = 0;
@@ -44,26 +45,25 @@ void	*routine(void *philo_pointer)
 	t_philo	*philo;
 
 	philo = philo_pointer;
-	while (!philo->finished && !philo->utils->stop)
+	while (!philo->utils->stop && !philo->finished)
 	{
 		ft_print(philo, "is thinking\n");
 		pthread_mutex_lock(&(philo->utils->forks[philo->right_fork]));
 		ft_print(philo, "has taken a fork\n");
 		pthread_mutex_lock(&(philo->utils->forks[philo->philo_id]));
 		ft_print(philo, "has taken a fork\n");
+		pthread_mutex_lock(&(philo->eat_mutex));
 		philo->last_eat = current_programe_time(philo->utils);
+		pthread_mutex_unlock(&(philo->eat_mutex));
 		ft_print(philo, "is eating\n");
 		ft_sleep(ft_atoi(philo->utils->av[2]));
-		pthread_mutex_unlock(&(philo->utils->forks[philo->philo_id]));
 		pthread_mutex_unlock(&(philo->utils->forks[philo->right_fork]));
+		pthread_mutex_unlock(&(philo->utils->forks[philo->philo_id]));
 		ft_print(philo, "is sleeping\n");
 		ft_sleep(ft_atoi(philo->utils->av[3]));
-		if (philo->utils->av[4])
-		{
-			philo->eat_counter++;
+		if (philo->utils->av[4] && ++(philo->eat_counter))
 			if (philo->eat_counter == ft_atoi(philo->utils->av[4]))
 				philo->finished = 1;
-		}
 	}
 	return (0);
 }
@@ -124,7 +124,9 @@ int	main(int ac, char **av)
 	init_philo_struct(av + 1, &utils, philo);
 	if (philos_check(&utils, philo))
 		return (EXIT_FAILURE);
-	death_check(&utils, philo);
+	while (1)
+		if (!death_check(&utils, philo))
+			break ;
 	i = (ac * 0) - 1;
 	pthread_mutex_destroy(&(utils.print));
 	while (++i < utils.size)

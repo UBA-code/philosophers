@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:50:00 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/01/27 14:02:59 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/02/05 13:57:48 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	int				eat_counter;
 	int				finished;
 	int				right_fork;
+	pthread_mutex_t	eat_mutex;
 }	t_philo;
 
 size_t		ft_strlen(const char *s);
@@ -48,7 +49,7 @@ int			ft_error(char *msg);
 size_t		ft_time_now(void);
 void		ft_sleep(int time);
 int			current_programe_time(t_philo_utils *utils);
-void		death_check(t_philo_utils *utils, t_philo *philo);
+int			death_check(t_philo_utils *utils, t_philo *philo);
 int			check_eat_done(t_philo *philo, t_philo_utils utils);
 void		ft_print(t_philo *philo, char *msg);
 void		stop_threads(t_philo_utils *utils, t_philo *philo);

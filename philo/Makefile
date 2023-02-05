@@ -5,8 +5,9 @@ SRCS = philosophers.c utils.c utils_2.c death_check.c
 # 	get_next_line.c get_next_line_utils.c \
 # 	actions_2_bonus.c actions_bonus.c
 OBG = $(SRCS:.c=.o)
-# BONUS_OBG = $(BONUS_SRCS:.c=.o)
-CFLAGS = -Wall -Werror -Wextra
+BONUS_OBG = $(BONUS_SRCS:.c=.o)
+# CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -fsanitize=thread -g3
 NAME = philo
 # BONUS = checker
 
