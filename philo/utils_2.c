@@ -5,22 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 14:01:56 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/02/05 13:53:18 by ybel-hac         ###   ########.fr       */
+/*   Created: 2023/03/08 18:55:55 by ybel-hac          #+#    #+#             */
+/*   Updated: 2023/03/08 19:04:09 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	stop_threads(t_philo_utils *utils, t_philo *philo)
+int	get_signs_len(char *str)
+{
+	int	i;
+	int	x;
+
+	x = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '-' || str[i] == '+')
+			x++;
+		i++;
+	}
+	return (x);
+}
+
+int	check_sign_in_num(char *str)
 {
 	int	i;
 
-	i = -1;
-	utils->stop = 1;
-	i = -1;
-	while (++i < utils->size)
+	i = 1;
+	if (!str)
+		return (0);
+	while (str[i])
 	{
-		pthread_join(philo[i].philo_thread, 0);
+		if (str[i] == '-' || str[i] == '+')
+			return (0);
+		i++;
 	}
+	return (1);
 }

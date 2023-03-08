@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:49:39 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/02/05 17:41:22 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/03/08 19:03:59 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int	args_check(int ac, char **av)
 		while (av[i])
 		{
 			x = 0;
+			if (get_signs_len(av[i]) > 1 || !check_sign_in_num(av[i]))
+				return (0);
 			while (av[i][x])
-			{
-				if (!((av[i][x] >= '0' && av[i][x] <= '9') || av[i][x] == '+'))
+				if (++x && !((av[i][x - 1] >= '0'
+						&& av[i][x - 1] <= '9') || av[i][x - 1] == '+'))
 					return (0);
-				x++;
-			}
 			if (av[i][x - 1] == '+')
 				return (0);
 			i++;

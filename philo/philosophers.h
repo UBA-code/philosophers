@@ -6,7 +6,7 @@
 /*   By: ybel-hac <ybel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:50:00 by ybel-hac          #+#    #+#             */
-/*   Updated: 2023/02/05 17:01:10 by ybel-hac         ###   ########.fr       */
+/*   Updated: 2023/03/08 19:01:58 by ybel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			current_programe_time(t_philo_utils *utils);
 int			death_check(t_philo_utils *utils, t_philo *philo);
 int			check_eat_done(t_philo *philo, t_philo_utils utils);
 void		ft_print(t_philo *philo, char *msg);
-void		stop_threads(t_philo_utils *utils, t_philo *philo);
-int			philo_end(t_philo *philo, t_philo_utils utils);
+int			get_signs_len(char *str);
+int			check_sign_in_num(char *str);
 
 #endif
